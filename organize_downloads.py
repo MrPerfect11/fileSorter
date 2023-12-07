@@ -2,25 +2,25 @@ import os
 import shutil
 
 def organize_folder(folder_path):
-    # Get a list of all files and directories in the folder
+    #Retrieve a list of all the files and directories in the folder.
     items = os.listdir(folder_path)
 
-    # Create a directory for each unique file extension
+    #Make a directory for each file extension.
     for item in items:
         item_path = os.path.join(folder_path, item)
 
         if os.path.isfile(item_path):
             _, extension = os.path.splitext(item)
-            extension = extension.lower()  # Convert the extension to lowercase for consistency
+            extension = extension.lower()  #To ensure consistency, convert the extension to lowercase.
 
-            # Create a directory for the extension if it doesn't exist
+            #Make a directory for the extension if one does not already exist.
             extension_folder = os.path.join(folder_path, extension[1:])  # Remove the leading dot from the extension
             os.makedirs(extension_folder, exist_ok=True)
 
-            # Move the file to the corresponding extension folder
+            #Sort the file to the proper extension folder.
             new_path = os.path.join(extension_folder, item)
 
-            # If a file with the same name already exists in the destination folder, add a number to the filename
+            #If a file with the same name already exists in the target folder, replace it with a number.
             counter = 1
             while os.path.exists(new_path):
                 base, ext = os.path.splitext(item)
@@ -30,7 +30,7 @@ def organize_folder(folder_path):
             shutil.move(item_path, new_path)
             print(f"Moved: {item} to {extension_folder}")
 
-    # Process subfolders recursively
+    #Process subfolders
     for item in items:
         item_path = os.path.join(folder_path, item)
 
@@ -38,10 +38,10 @@ def organize_folder(folder_path):
             organize_folder(item_path)
 
 def organize_downloads_folder(download_folder):
-    # Ensure the downloads folder path ends with a separator
+    #Make sure the downloads folder path has a separator.
     download_folder = download_folder.rstrip(os.path.sep) + os.path.sep
 
-    # Process each subfolder within the Downloads folder
+    # Go through each subfolder in the Downloads folder.
     organize_folder(download_folder)
 
 if __name__ == "__main__":
